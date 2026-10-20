@@ -12,6 +12,10 @@ class Item(BaseModel):
     desc: str
     price: float
 
+@app.get("/")
+def root():
+    return {"message": "CRUD API is running. Visit /docs to try it."}
+
 # create
 @app.post("/item/{item_id}")
 def create_item(item_id: int, item: Item):
@@ -33,7 +37,7 @@ def read_item(item_id: int):
     return items[item_id]
 
 # Update
-@app.put("/items/item_id")
+@app.put("/items/{item_id}")
 def update_item(item_id: int, updated_item: Item):
     if item_id not in items:
         raise HTTPException(status_code=404, detail="Item not found")
@@ -41,7 +45,7 @@ def update_item(item_id: int, updated_item: Item):
     return {"message": "Item Updated", "item": updated_item}
 
 # Delete
-@app.delete("/items/item_id")
+@app.delete("/items/{item_id}")
 def delete_item(item_id: int):
     if item_id not in items:
         raise HTTPException(status_code=404, detail="Item not found")
